@@ -45,3 +45,4 @@ document.getElementById("loginBtn").addEventListener("click", async function() {
 document.getElementById("createAccountBtn").addEventListener("click", function() {
     window.location.href = "register.html"; // Redirect to registration page
 });
+
