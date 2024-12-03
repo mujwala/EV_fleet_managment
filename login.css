@@ -1,19 +1,87 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f0f2f5;
+    background-color: #173E3B;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
 }
 
+h1 {
+    color: white;
+    font-size: 28px;
+    margin-top: -50px; /* Moves the H1 tag slightly upward */
+    margin-bottom: 50px; /* Creates a larger gap between the H1 and the login container */
+    text-align: center;
+    text-transform: uppercase;
+}
+
 .login-container {
     background-color: white;
     padding: 40px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Increased shadow for better appearance */
+    text-align: center;
+    width: 350px; /* Defined a fixed width for better layout consistency */
 }
+
+.login-form {
+    width: 100%; /* Matches the container width */
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    text-align: left; /* Align the input labels and placeholders to the left */
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-sizing: border-box; /* Ensures padding doesn't affect the element's width */
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Adds a button shadow */
+    transition: background-color 0.3s ease; /* Smooth transition for hover effects */
+}
+
+#loginBtn {
+    background-color: #1877f2;
+    color: white;
+}
+
+#loginBtn:hover {
+    background-color: #166fe5;
+}
+
+#createAccountBtn {
+    background-color: #42b72a;
+    color: white;
+}
+
+#createAccountBtn:hover {
+    background-color: #36a420;
+}
+
 
 .login-form {
     width: 300px;
@@ -75,3 +143,4 @@ button {
 #createAccountBtn:hover {
     background-color: #36a420;
 }
+
