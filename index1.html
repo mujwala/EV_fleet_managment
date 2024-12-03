@@ -54,7 +54,7 @@
             display: block;
         }
 
-        select {
+        select, input {
             width: 100%;
             padding: 10px;
             font-size: 1em;
@@ -73,6 +73,7 @@
             border-radius: 4px;
             cursor: pointer;
             width: 100%;
+            margin-bottom: 10px;
         }
 
         button:hover {
@@ -92,66 +93,75 @@
             font-size: 1.2em;
             font-weight: bold;
         }
+
+        /* Go Back Button */
+        #go-back-button {
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+        }
     </style>
     <script>
-        // Car feature data and corresponding ranges from your dataset
         const carData = {
-            "Nissan ARIYA": {
-                "range": [328.15, 300.93, 298.93, 323.04, 315.37], // Example ranges
-                "features": ["Acceleration_0_100", "Top Speed", "ER", "Total Power", "Total Torque"]
-            },
-            "Honda Clarity EV": {
-                "range": [414.94, 399.27, 418.27, 386.6], // Example ranges
-                "features": ["Acceleration_0_100", "Top Speed", "ER", "Total Power", "Total Torque"]
-            },
-            "Hyundai Ioniq 5": {
-                "range": [371.27, 375.27, 334.1, 371.27], // Example ranges
-                "features": ["Acceleration_0_100", "Top Speed", "ER", "Total Power", "Total Torque"]
-            },
-            "Maruti Jimny EV": {
-                "range": [203.47], // Example range
-                "features": ["Acceleration_0_100", "Top Speed", "ER", "Total Power", "Total Torque"]
-            },
-            "Citroen eC3": {
-                "range": [149.13], // Example range
-                "features": ["Acceleration_0_100", "Top Speed", "ER", "Total Power", "Total Torque"]
-            }
+            "Nissan ARIYA": { "maxRange": 328.15 },
+            "Honda Clarity EV": { "maxRange": 414.94 },
+            "Hyundai Ioniq 5": { "maxRange": 371.27 },
+            "Maruti Jimny EV": { "maxRange": 203.47 },
+            "Citroen eC3": { "maxRange": 149.13 }
         };
 
-        // Function to get the URL parameter (car name)
-        function getCarNameFromURL() {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get('car_name');
-        }
-
         // Function to display the predicted range
-        function displayRange(carName) {
-            const carInfo = carData[carName];
-            
-            if (carInfo) {
-                // Select the range (for simplicity, picking the first value in the range array)
-                const predictedRange = carInfo.range[0];
+        function calculateRange() {
+            const carName = document.getElementById("car_name").value;
+            const batteryLevel = parseFloat(document.getElementById("battery_level").value);
 
-                // Display the predicted range on the page
+            if (!carName || isNaN(batteryLevel) || batteryLevel < 0 || batteryLevel > 100) {
+                document.getElementById("prediction").innerHTML = "<p class='error'>Please select a valid car and enter a battery level between 0 and 100.</p>";
+                return;
+            }
+
+            const carInfo = carData[carName];
+            if (carInfo) {
+                const predictedRange = (carInfo.maxRange * batteryLevel) / 100;
+
+                // Display the predicted range and Go Back button
                 document.getElementById("prediction").innerHTML = `
                     <h3>Predicted Range for ${carName}:</h3>
                     <p class="result-text">${predictedRange.toFixed(2)} km</p>
+                    <div id="go-back-button">
+                        <button onclick="goBackToHome()">Go Back to Home</button>
+                    </div>
                 `;
             } else {
                 document.getElementById("prediction").innerHTML = "<p class='error'>Car data not available.</p>";
             }
         }
 
-        window.onload = function() {
-            const carName = getCarNameFromURL();
-            if (carName) {
-                displayRange(carName);
-            }
+        // Function to navigate back to the index.html
+        function goBackToHome() {
+            window.location.href = 'index.html'; // Replace with the correct home page URL if needed
         }
     </script>
 </head>
 <body>
     <h1>Car Range Prediction</h1>
+    <form onsubmit="event.preventDefault(); calculateRange();">
+        <label for="car_name">Car Name:</label>
+        <select id="car_name" name="car_name">
+            <option value="" disabled selected>Select a car</option>
+            <option value="Nissan ARIYA">Nissan ARIYA</option>
+            <option value="Honda Clarity EV">Honda Clarity EV</option>
+            <option value="Hyundai Ioniq 5">Hyundai Ioniq 5</option>
+            <option value="Maruti Jimny EV">Maruti Jimny EV</option>
+            <option value="Citroen eC3">Citroen eC3</option>
+        </select>
+
+        <label for="battery_level">Battery Level (%):</label>
+        <input type="number" id="battery_level" name="battery_level" placeholder="Enter battery level (0-100)">
+
+        <button type="submit">Predict Range</button>
+    </form>
+
     <div id="prediction"></div>
 </body>
 </html>
